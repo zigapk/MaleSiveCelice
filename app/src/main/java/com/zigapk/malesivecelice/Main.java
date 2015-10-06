@@ -1,54 +1,64 @@
 package com.zigapk.malesivecelice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.TextView;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.WindowManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 public class Main extends AppCompatActivity {
 
-    TextView tv;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tv = (TextView) findViewById(R.id.tv);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        findViewById(R.id.n2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv.setText("N2");
-                tv.setTextColor(getResources().getColor(R.color.red));
-            }
-        });
-        findViewById(R.id.n1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv.setText("N1");
-                tv.setTextColor(getResources().getColor(R.color.red));
-            }
-        });
-        findViewById(R.id.clear).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv.setText("");
-                tv.setTextColor(getResources().getColor(R.color.black));
-            }
-        });
-        findViewById(R.id.d1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv.setText("D1");
-                tv.setTextColor(getResources().getColor(R.color.black));
-            }
-        });
-        findViewById(R.id.d2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv.setText("D2");
-                tv.setTextColor(getResources().getColor(R.color.black));
-            }
-        });
+        webView = (WebView) findViewById(R.id.webView);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        String url = Settings.getUrl(getApplicationContext());
+        if(url == null){
+            startActivity(new Intent(this, Settings.class));
+        }else {
+            webView.loadUrl(url);
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            startActivity(new Intent(this, Settings.class));
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, Settings.class));
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
