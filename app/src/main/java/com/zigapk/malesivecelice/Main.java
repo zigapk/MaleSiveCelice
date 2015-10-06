@@ -36,6 +36,10 @@ public class Main extends AppCompatActivity {
             webView.loadUrl(url);
         }
     }
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
