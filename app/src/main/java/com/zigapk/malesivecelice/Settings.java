@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.net.URISyntaxException;
 
 public class Settings extends AppCompatActivity {
@@ -21,11 +24,17 @@ public class Settings extends AppCompatActivity {
     private Button saveButton;
     private Button browseButton;
     private EditText urlInput;
+    private static Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        tracker = application.getDefaultTracker();
+        tracker.setScreenName("Settings");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         urlInput = (EditText) findViewById(R.id.urlInput);
         saveButton = (Button) findViewById(R.id.saveButton);
@@ -64,6 +73,12 @@ public class Settings extends AppCompatActivity {
             Toast.makeText(context, "Saved!",
                     Toast.LENGTH_LONG).show();
         }catch (Exception e){}
+
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Save")
+                .setLabel(value)
+                .build());
     }
 
     @Override

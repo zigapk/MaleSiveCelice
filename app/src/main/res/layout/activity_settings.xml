@@ -29,4 +29,23 @@
         android:text="Browse"
         android:layout_centerHorizontal="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/browseButton"
+        android:text="@string/eula"
+        android:id="@+id/eula"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:text="@string/author"
+        android:layout_below="@+id/eula"
+        android:layout_marginTop="4dp" />
+
 </RelativeLayout>
