@@ -58,10 +58,6 @@ public class Main extends AppCompatActivity {
                     .build());
         }
     }
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
